@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const [color, changeColor] = useState("blue");
+
+  const handleClick = async () => {
+   
+    try {
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/posts/1"
+      );
+      if (response.status === 200) {
+        console.log(response)
+        changeColor("green");
+      }
+    } catch (err) {
+      changeColor("red");
+      console.log(err)
+      
+    }
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={handleClick}>
+        make green after successful api call
+      </button>
+
+      <div className={`box ${color}`}>Lorem Ipsum</div>
     </div>
   );
 }
